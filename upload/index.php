@@ -7,7 +7,7 @@
 error_reporting(0);
 ini_set('display_errors', 0);
 
-define('STEAM_API_KEY', '0123456789ABCDEF0123456789ABCDEF');  // get one at http://steamcommunity.com/dev/apikey
+require('config.php');
 
 connect_to_db() or die_blank();
 
@@ -25,9 +25,9 @@ require('index.tpl.php');
 exit;
 
 function connect_to_db() {
-	if (!mysql_connect('localhost', 'user', 'pass')) return false;
+	if (!mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD)) return false;
 	if (!mysql_query('set names utf8')) return false;
-	if (!mysql_select_db('hlstatsx')) return false;
+	if (!mysql_select_db(DB_DATABASE)) return false;
 	
 	return true;
 }
@@ -35,7 +35,7 @@ function connect_to_db() {
 function die_blank() {
 	$content = "<div id=error>Статистика временно недоступна</div>";
 	require('index.tpl.php');
-	die('TODO: nosql page here');
+	die();  // TODO: nosql page here
 }
 
 function die_404() {
